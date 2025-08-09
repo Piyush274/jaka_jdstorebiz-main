@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "397067199973",
+    "project_id": "jakaparts-app",
+    "storage_bucket": "jakaparts-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397067199973:android:31304ead66bfa1a97d3b0c",
+        "android_client_info": {
+          "package_name": "com.jakaapp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh__bSRw7Ri0SCrwq-55PCG1HsLXz-uo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
