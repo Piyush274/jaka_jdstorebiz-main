@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'firebase_options.dart';
@@ -29,7 +30,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  
   final List<Map<String, String>> links = [
     {"title": "Rewards", "url": "https://www.jakaparts.com/pages/rewards-program"},
     {"title": "Gift Cards", "url": "https://www.jakaparts.com/products/gift-cards"},
@@ -43,10 +51,25 @@ class HomePage extends StatelessWidget {
     {"title": "Contact Us", "url": "https://www.jakaparts.com/pages/contact-us"},
   ];
 
+  // Bottom navigation URLs
+  final List<String> bottomNavUrls = [
+    "https://www.jakaparts.com",
+    "https://www.jakaparts.com/pages/partners-program", 
+    "https://www.jakaparts.com/apps/trackingmore",
+    "https://www.jakaparts.com/pages/contact-us",
+  ];
+
   Future<void> _launchUrl(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  void _onBottomNavTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _launchUrl(bottomNavUrls[index]);
   }
 
   @override
@@ -189,6 +212,36 @@ class HomePage extends StatelessWidget {
 
         ],
       ),
+      // Add bottom navigation bar only for iOS
+      bottomNavigationBar: defaultTargetPlatform == TargetPlatform.iOS 
+        ? BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            onTap: _onBottomNavTap,
+            selectedItemColor: Color(0xFFE81524),
+            unselectedItemColor: Colors.grey,
+            backgroundColor: Colors.white,
+            elevation: 8,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.handshake),
+                label: 'Partners',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.track_changes),
+                label: 'Track Order',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.contact_support),
+                label: 'Contact Us',
+              ),
+            ],
+          )
+        : null,
     );
   }
 }
